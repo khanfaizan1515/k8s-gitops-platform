@@ -1,0 +1,34 @@
+replicaCount: 2
+
+image:
+  repository: order-service
+  tag: "1.0"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 3003
+  targetPort: 3003
+
+config:
+  environment: "production"
+
+secret:
+  apiKey: "order-service-secret"
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 8
+  targetCPUUtilizationPercentage: 70
+
+serviceAccount:
+  create: false
